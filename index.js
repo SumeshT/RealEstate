@@ -6,29 +6,39 @@ var path = require("path");
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'St@7870096133',
+    password : 'password',
     database : 'estate'
 });
-
+connection.connect(function(err){
+    if(err){
+        console.log(err);
+    }else{
+        console.log("Connected");
+    }
+});
 var app = express();
 
 app.use(session({
-    secret: 'secret',
+    secret: 'This is a black bear',
     resave: true,
     saveUninitialized: true
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-app.get('/', function(request, response) {
-    response.sendFile(path.join(__dirname + '/Login.html'));
+app.get('/', function(req, res) {
+            res.sendFile(path.join(__dirname + '/Login.html'));
 });
 
 app.post('/auth', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM logintable WHERE UserId = ? AND password = ?', [username, password], function(error, results, fields) {
+        connection.query('SELECT * FROM logintable WHERE UserID = ? AND Password = ?', [username, password], function(error, results, fields) {
+            if(error){
+                console.log(error);
+            }
+            console.log(results);
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
