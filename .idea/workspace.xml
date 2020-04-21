@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c110856a-554b-4c9f-95a1-ad6d9895b058" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/AddProperty.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/agentHomepage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/.idea/workspace.xml" afterDir="false" />
@@ -66,7 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1587221928034</updated>
       <workItem from="1587221934705" duration="7551000" />
-      <workItem from="1587379347915" duration="8321000" />
+      <workItem from="1587379347915" duration="17453000" />
     </task>
     <servers />
   </component>

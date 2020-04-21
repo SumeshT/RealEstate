@@ -42,7 +42,12 @@ app.post('/auth', function(request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                response.redirect('/home');
+                if(results[0].UserType == "Admin"){
+                    response.redirect('/adminHomePage');
+                }
+                else{
+                    response.redirect('/agentHomepage');
+                }
             } else {
                 response.send('Incorrect UserId and/or Password!');
             }
@@ -54,14 +59,30 @@ app.post('/auth', function(request, response) {
     }
 });
 
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.send('Welcome back, ' + request.session.username + '!');
-    } else {
-        response.send('Please login to view this page!');
+app.get('/agentHomepage',function (req,res) {
+    if(request.session.loggedin){
+        res.render('agentHomepage');
     }
-    response.end();
-});
+    else {
+        res.send('Please Login to see this page');
+    }
+})
+
+app.get('/agentHomepage/AddProperty',function (req,res) {
+    if(request.session.loggedin){
+        response.render('AddProperty');
+    }
+    else {
+        res.send('Please Login to view this page');
+    }
+})
+
+app.post('agentHomepage/AddProperty/Add',function (req,res) {
+    var newProperty = "insert into Property(Propertyid,ptype,price,description,isOccupied,bhk" +
+        ",forSale,street,locality,city,state,pincode,OwnerId,AgentId,Area,entry) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,)";
+    var propertyvalue = [req.body.Propertyid,req.body.type,req.body.price,req.body.description,'FALSE',req.body.BHK,req.body.forSale,req.body.street,req.body.locality,req.body.city,req.body.state,req.body.pincode,req.body.AgentId,req.body.OwnerId,req.body.area,req.body.date];
+    
+})
 
 var server = app.listen(3000, function () {
     console.log('Server is running..');
