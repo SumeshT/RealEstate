@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var mysql = require("mysql");
 var session = require("express-session");
 var path = require("path");
+var methodOverride = require("method-override");
 
 
 var connection = mysql.createConnection({
@@ -27,6 +28,7 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
 app.set("view engine","ejs");
 
 app.get('/', function(req, res) {
@@ -123,13 +125,94 @@ app.post('/adminHomePage/register',function(req,res){
                     }
                 });
 
-            }); 
-            
+            });    
             
         }
     });
     
-})
+});
+
+app.get('/adminHomePage/agents',function(request,response){
+    if(request.session.loggedin){
+        connection.query("select Login.UserID id,AgentID,FirstName,LastName,Email,PhnNum,City,Gender,Age from Agent,Login where Login.UserID = Agent.UserID",function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                response.render("agents.ejs",{agents:results});
+            }
+        })
+        
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.post('/adminHomePage/agents',function(request,response){
+    if(request.session.loggedin){
+        connection.query("select Login.UserID id,AgentID,FirstName,LastName,Email,PhnNum,City,Gender,Age from Agent,Login where Login.UserID = Agent.UserID and Login.UserID =?",[request.body.id],function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                response.render("search.ejs",{agent:results[0],id:request.body.id});
+            }
+        });
+        
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.get('/adminHomePage/agents/:id/edit',function(req,res){
+    if(req.session.loggedin){
+        connection.query("select Login.UserID id,Password,AgentID,FirstName,LastName,Email,PhnNum,City,Gender,Age from Agent,Login where Login.UserID = Agent.UserID and Agent.UserID = ?",[req.params.id],function(err,results,fields){
+            if(err){
+                console.log(err);
+            } else if(results.length > 0){
+                res.render("edit.ejs",{agent:results[0]});
+            }
+        });
+    }
+    else{
+        res.send("Please login to view this page!");
+    }
+    
+    
+});
+
+app.put('/adminHomePage/agents/:id',function(req,res){
+    var updateAgent = "update Agent set FirstName =?,LastName =?,Gender = ?,Age =?, City =?, PhnNum =? where UserID =?";
+    var agentvalue = [req.body.FirstName,req.body.LastName,req.body.Gender,req.body.Age,req.body.City,req.body.PhnNum,req.params.id];
+    connection.query(updateAgent,agentvalue,function(err,results,fields){
+        if(err){
+            console.log(err);
+        }
+        
+        connection.query("update Login set Email =? where UserID =?",[req.body.Email,req.params.id],function(err,results,fields){
+            if(err){
+                console.log(err);
+            } else{
+                res.redirect("/adminHomePage/agents");
+            }
+        });
+    });
+});
+
+app.delete('/adminHomePage/agents/:id',function(req,res){
+    connection.query("delete from Agent where UserID = ?",[req.params.id],function(err){
+        if(err){
+            console.log(err);
+        }
+        connection.query("delete from Login where UserID = ?",[req.params.id],function(err){
+            if(err){
+                console.log(err);
+            }
+            res.redirect("/adminHomePage/agents");
+        });
+        
+    });
+});
 
 var server = app.listen(3000, function () {
     console.log('Server is running..');
