@@ -3,11 +3,13 @@ var bodyParser = require("body-parser");
 var mysql = require("mysql");
 var session = require("express-session");
 var path = require("path");
+
+
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'password',
-    database : 'estate'
+    password : 'Sohan022@',
+    database : 'project'
 });
 connection.connect(function(err){
     if(err){
@@ -25,16 +27,17 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+app.set("view engine","ejs");
 
 app.get('/', function(req, res) {
-            res.sendFile(path.join(__dirname + '/Login.html'));
+    res.sendFile(path.join(__dirname + '/Login.html'));
 });
 
 app.post('/auth', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM logintable WHERE UserID = ? AND Password = ?', [username, password], function(error, results, fields) {
+        connection.query('SELECT * FROM Login WHERE UserID = ? AND Password = ?', [username, password], function(error, results, fields) {
             if(error){
                 console.log(error);
             }
@@ -46,8 +49,9 @@ app.post('/auth', function(request, response) {
                     response.redirect('/adminHomePage');
                 }
                 else{
-                    response.redirect('/agentHomepage');
+                    response.redirect('/home')
                 }
+
             } else {
                 response.send('Incorrect UserId and/or Password!');
             }
@@ -59,29 +63,72 @@ app.post('/auth', function(request, response) {
     }
 });
 
-app.get('/agentHomepage',function (req,res) {
-    if(request.session.loggedin){
-        res.render('agentHomepage');
+app.get('/home', function(request, response) {
+    if (request.session.loggedin) {
+        response.send('Welcome back, ' + request.session.username + '!');
+    } else {
+        response.send('Please login to view this page!');
     }
-    else {
-        res.send('Please Login to see this page');
-    }
-})
+    response.end();
+});
 
-app.get('/agentHomepage/AddProperty',function (req,res) {
-    if(request.session.loggedin){
-        response.render('AddProperty');
+app.get('/adminHomePage', function(request, response) {
+    if (request.session.loggedin) {
+        // response.send('Welcome to admin home page, ' + request.session.username + '!');
+        response.render("adminHomePage");
+    } else {
+        response.send('Please login to view this page!');
     }
-    else {
-        res.send('Please Login to view this page');
-    }
-})
+});
 
-app.post('agentHomepage/AddProperty/Add',function (req,res) {
-    var newProperty = "insert into Property(Propertyid,ptype,price,description,isOccupied,bhk" +
-        ",forSale,street,locality,city,state,pincode,OwnerId,AgentId,Area,entry) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,)";
-    var propertyvalue = [req.body.Propertyid,req.body.type,req.body.price,req.body.description,'FALSE',req.body.BHK,req.body.forSale,req.body.street,req.body.locality,req.body.city,req.body.state,req.body.pincode,req.body.AgentId,req.body.OwnerId,req.body.area,req.body.date];
-    
+app.get('/adminHomePage/register',function(request,response){
+    if(request.session.loggedin){
+        response.render("register.ejs");
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.post('/adminHomePage/register',function(req,res){
+    connection.query('SELECT * FROM Login WHERE UserID = ?', [req.body.username], function(error, results, fields){
+        if(error){
+            console.log(error);
+        }
+        else if(results.length > 0){
+            console.log("This userid exists");
+            res.redirect("/adminHomePage/register");
+        }
+        else{
+            connection.query("select max(AgentID) id from Agent",function(err,foundId,fields){
+                if(err){
+                    console.log(err);
+                }
+
+                var newLogin = "insert into Login(UserID,Password,Email,UserType) values(?,?,?,?)";
+                var loginvalue = [req.body.username, req.body.password, req.body.email,'Agent'];
+                var newAgent = "insert into Agent(AgentID,UserID,FirstName,LastName,Gender,Age,City,PhnNum) values(?,?,?,?,?,?,?,?)";
+                var agentvalue = [foundId[0].id+1,req.body.username,req.body.firstname,req.body.lastname,req.body.gender,req.body.age,req.body.city,req.body.phnum];
+                connection.query(newLogin,loginvalue, function(error, results, fields) {
+                    if(error){
+                        console.log(error);
+                    } else{
+                        connection.query(newAgent,agentvalue, function(error, results, fields) {
+                            if(error){
+                                console.log(error);
+                            } else{
+                                console.log("1 record inserted");
+                                res.redirect('/adminHomePage');
+                            }
+                        });
+                    }
+                });
+
+            });
+
+
+        }
+    });
+
 })
 
 var server = app.listen(3000, function () {

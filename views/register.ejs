@@ -1,0 +1,40 @@
+<%- include("partials/header") -%>
+
+<div class="col-md-9" style="margin:auto 0; text-align:center;">
+    <div class="container"></div>
+        <h1 style="text-align: center;">SignUp</h1>
+        <div class="form-inline" style="width: 70%; margin: 20px auto;">
+            <form action="/adminHomePage/register" method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Username" name="username" required>
+                    <input class="form-control" type="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="firstname" name="firstname" required>
+                    <input class="form-control" type="text" placeholder="lastname" name="lastname">
+                    <div class="dropdown">
+                        <label>Gender
+                            <select name="gender" required>
+                                <option>Select Gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Others</option>
+                            </select>
+                      </label>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" placeholder="Email" name="email" required>
+                    <input class="form-control" type="text" placeholder="Mob. Number" name="phnum" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="number" placeholder="age" name="age" min="0" required>
+                    <input class="form-control" type="text" placeholder="City" name="city"required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("partials/footer") -%>
