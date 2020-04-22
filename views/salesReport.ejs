@@ -1,0 +1,52 @@
+<%- include("partials/header") -%>
+
+<div class="col-md-9" style="margin-top: 10px;">
+
+    <form action="/adminHomePage/sales" class="form-inline" method="POST">
+        <label class="sr-only" for="in">Username</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="in" placeholder="Agent UserID" name="id">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+
+    <table border="1">
+        <thead>
+          <tr>
+            <th >Sr.Num</th>
+            <th >PropID</th>
+            <th >Date</th>
+            <th>Price</th>
+            <th>PropType</th>
+            <th >TenantID</th>
+            <th >T.FirstName</th>
+            <th >T.LastName</th>
+            <th >AgentUserID</th>
+            <th >A.FirstName</th>
+            <th >A.LastName</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% var i = 1; %>
+           <% sales.forEach(function(sale){ %>
+            <tr>
+                <td><%= i %></td>
+                <td><%=sale.pid%></td>
+                <td><%=sale.pd%></td>
+                <td><%=sale.Price%></td>
+                <td><%=sale.PropType%></td>
+                <td><%=sale.tid%></td>
+                <td><%=sale.tf%></td>
+                <td><%=sale.tl%></td>
+                <td><%=sale.aid%></td>
+                <td><%=sale.af%></td>
+                <td><%=sale.al%></td>
+            </tr>
+           <% i = i + 1; %>
+
+          <% }); %>
+          
+        </tbody>
+      </table>
+
+</div>
+
+<%- include("partials/footer") -%>

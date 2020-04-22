@@ -214,6 +214,16 @@ app.delete('/adminHomePage/agents/:id',function(req,res){
     });
 });
 
+app.get("/adminHomePage/salesReport",function(req,res){
+    if(req.session.loggedin){
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and ForSale = 'True'",function(err,results,fields){
+            res.render("salesReport.ejs",{sales:results});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
 var server = app.listen(3000, function () {
     console.log('Server is running..');
 });
