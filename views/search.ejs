@@ -1,0 +1,56 @@
+<%- include("partials/header") -%>
+<div class="col-md-9" style="margin-top: 10px;">
+    <form action="/adminHomePage/agents" class="form-inline" method="POST">
+        <label class="sr-only" for="in">Usernane</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="in" value = "<%= id %>" name="id">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+        <div>
+            <a href="/adminHomePage/agents" class="btn btn-outline-primary" style="margin-left: 200px;"> All Agents</a>
+        </div>
+    </form>
+
+    
+      <% if(agent) { %>
+        <table border="1">
+            <thead>
+              <tr>
+                <th >AgentID</th>
+                <th >UserID</th>
+                <th >FirstName</th>
+                <th >LastName</th>
+                <th >Email</th>
+                <th >Gender</th>
+                <th >Age</th>
+                <th >Mob.Num</th>
+                <th >City</th>
+                <th colspan="2" class="text-center">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%=agent.AgentID%></td>
+                    <td><%=agent.id%></td>
+                    <td><%=agent.FirstName%></td>
+                    <td><%=agent.LastName%></td>
+                    <td><%=agent.Email%></td>
+                    <td><%=agent.Gender%></td>
+                    <td><%=agent.Age%></td>
+                    <td><%=agent.PhnNum%></td>
+                    <td><%=agent.City%></td>
+                    <td><a href="/adminHomePage/agents/<%= agent.id %>/edit"  class="btn btn-outline-warning btn-sm"> Edit</a></td>
+                    <form action="/adminHomePage/agents/<%= agent.id %>?_method=DELETE" method="POST">
+                        <td><button class="btn btn-outline-danger btn-sm">Delete</button></td>
+                    </form>
+                </tr>
+              
+            </tbody>
+          </table>
+      <% } else{ %>
+          <h3>No Records found</h3>
+      <% } %>
+   
+
+</div>
+
+
+<%- include("partials/footer") -%>
