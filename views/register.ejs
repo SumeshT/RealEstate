@@ -2,25 +2,25 @@
 
 <div class="col-md-9" style="margin:auto 0; text-align:center;">
     <div class="container"></div>
-        <h1 style="text-align: center;">SignUp</h1>
-        <div class="form-inline" style="width: 70%; margin: 20px auto;">
-            <form action="/adminHomePage/register" method="POST">
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Username" name="username" required>
-                    <input class="form-control" type="password" placeholder="Password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="firstname" name="firstname" required>
-                    <input class="form-control" type="text" placeholder="lastname" name="lastname">
-                    <div class="dropdown">
-                        <label>Gender
-                            <select name="gender" required>
-                                <option>Select Gender</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Others</option>
-                            </select>
-                      </label>
+    <h1 style="text-align: center;">SignUp</h1>
+    <div class="form-inline" style="width: 70%; margin: 20px auto;">
+        <form action="/adminHomePage/register" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Username" name="username" required>
+                <input class="form-control" type="password" placeholder="Password" name="password" required>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="firstname" name="firstname" required>
+                <input class="form-control" type="text" placeholder="lastname" name="lastname">
+                <div class="dropdown">
+                    <label>Gender
+                        <select name="gender" required>
+                            <option>Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Others</option>
+                        </select>
+                    </label>
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="email" placeholder="Email" name="email" required>
@@ -28,13 +28,14 @@
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="number" placeholder="age" name="age" min="0" required>
-                    <input class="form-control" type="text" placeholder="City" name="city"required>
-                </div>
+                    <input class="form-control" type="text" placeholder="City" name="city" required>
+                </div><br>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block">Register</button>
+                    <button class="btn btn-primary btn-block"
+                        style="background-color: #30C452; border: white;">Register</button>
                 </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 </div>
 <%- include("partials/footer") -%>
