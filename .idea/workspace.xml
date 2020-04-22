@@ -2,36 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c110856a-554b-4c9f-95a1-ad6d9895b058" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/ejs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/ejs.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/jakefile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/lib/ejs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/lib/utils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node_modules/ejs/postinstall.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/adminHomePage.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/partials/footer.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/partials/header.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/register.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AddProperty.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/agentHomepage.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/nodemon" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.bin/nodemon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/body-parser/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/body-parser/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/express-session/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/express-session/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/express/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/express/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mysql/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mysql/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/nodemon/bin/nodemon.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/nodemon/bin/nodemon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/nodemon/bin/postinstall.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/nodemon/bin/postinstall.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/nodemon/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/nodemon/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/path/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/path/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/path/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/path/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/path/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/path/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/path/path.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/path/path.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/Base.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/Base.html" afterDir="false" />
@@ -95,7 +67,7 @@
       <updated>1587221928034</updated>
       <workItem from="1587221934705" duration="7551000" />
       <workItem from="1587379347915" duration="17453000" />
-      <workItem from="1587482537330" duration="3445000" />
+      <workItem from="1587482537330" duration="8698000" />
     </task>
     <servers />
   </component>

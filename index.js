@@ -8,8 +8,8 @@ var path = require("path");
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'Sohan022@',
-    database : 'project'
+    password : 'password',
+    database : 'estate'
 });
 connection.connect(function(err){
     if(err){
@@ -37,7 +37,7 @@ app.post('/auth', function(request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM Login WHERE UserID = ? AND Password = ?', [username, password], function(error, results, fields) {
+        connection.query('SELECT * FROM logintable WHERE UserID = ? AND Password = ?', [username, password], function(error, results, fields) {
             if(error){
                 console.log(error);
             }
@@ -49,7 +49,7 @@ app.post('/auth', function(request, response) {
                     response.redirect('/adminHomePage');
                 }
                 else{
-                    response.redirect('/home')
+                    response.redirect('/agentHomepage')
                 }
 
             } else {
@@ -61,15 +61,6 @@ app.post('/auth', function(request, response) {
         response.send('Please enter UserId and Password!');
         response.end();
     }
-});
-
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.send('Welcome back, ' + request.session.username + '!');
-    } else {
-        response.send('Please login to view this page!');
-    }
-    response.end();
 });
 
 app.get('/adminHomePage', function(request, response) {
@@ -131,6 +122,38 @@ app.post('/adminHomePage/register',function(req,res){
 
 })
 
-var server = app.listen(3000, function () {
+app.get('/agentHomepage', function(request, response) {
+    if (request.session.loggedin) {
+        //response.send('Welcome to agent home page, ' + request.session.username + '!');
+        response.sendFile(path.join(__dirname + '/agentHomepage.html'));
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.get('/agentHomePage/Addproperty',function(request,response){
+    if(request.session.loggedin){
+        response.sendFile(path.join(__dirname + '/AddProperty.html'));
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.post('/agentHomePage/Addproperty/Add',function (req,res) {
+    var newProperty = "insert into Property(Propertyid,ptype,price,description,isOccupied,BHK,forSale,street,locality,city,state,pincode,Ownerid,AgentId,Area,entry) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    var Propertyvalue = [req.body.Propertyid, req.body.type, req.body.price, req.body.description, req.body.isOccupied, req.body.BHK, req.body.forSale, req.body.street, req.body.locality, req.body.city, req.body.state, req.body.pincode, req.body.ownerid, req.body.agentid, req.body.area, req.body.date];
+    connection.query(newProperty, Propertyvalue, function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("1 record inserted");
+            res.redirect('/agentHomePage');
+        }
+    });
+});
+
+
+
+    var server = app.listen(3000, function () {
     console.log('Server is running..');
 });
