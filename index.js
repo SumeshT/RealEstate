@@ -9,8 +9,8 @@ var methodOverride = require("method-override");
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: 'yesbroker'
+    password: 'Sohan022@',
+    database: 'project'
 });
 connection.connect(function (err) {
     if (err) {
@@ -28,7 +28,8 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(methodOverride("_method"));
+app.set("view engine","ejs");
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/Login.html'));
@@ -38,7 +39,7 @@ app.post('/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM logintable1 WHERE UserID = ? AND Passwrd = ?', [username, password], function (error, results, fields) {
+        connection.query('SELECT * FROM Login WHERE UserID = ? AND Password = ?', [username, password], function (error, results, fields) {
             if (error) {
                 console.log(error);
             }
@@ -46,7 +47,7 @@ app.post('/auth', function (request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                if (results[0].usertype == "Admin") {
+                if (results[0].UserType == "Admin") {
                     response.redirect('/adminHomePage');
                 }
                 else {
@@ -82,7 +83,7 @@ app.get('/adminHomePage/register', function (request, response) {
 });
 
 app.post('/adminHomePage/register', function (req, res) {
-    connection.query('SELECT * FROM Logintable1 WHERE UserID = ?', [req.body.username], function (error, results, fields) {
+    connection.query('SELECT * FROM Login WHERE UserID = ?', [req.body.username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -96,7 +97,7 @@ app.post('/adminHomePage/register', function (req, res) {
                     console.log(err);
                 }
 
-                var newLogin = "insert into Logintable1(UserID,Password,Email,UserType) values(?,?,?,?)";
+                var newLogin = "insert into Login(UserID,Password,Email,UserType) values(?,?,?,?)";
                 var loginvalue = [req.body.username, req.body.password, req.body.email, 'Agent'];
                 var newAgent = "insert into Agent(AgentID,UserID,FirstName,LastName,Gender,Age,City,PhnNum) values(?,?,?,?,?,?,?,?)";
                 var agentvalue = [foundId[0].id + 1, req.body.username, req.body.firstname, req.body.lastname, req.body.gender, req.body.age, req.body.city, req.body.phnum];
@@ -115,7 +116,6 @@ app.post('/adminHomePage/register', function (req, res) {
                     }
                 });
 
-<<<<<<< HEAD
             });    
             
         }
@@ -205,24 +205,6 @@ app.delete('/adminHomePage/agents/:id',function(req,res){
     });
 });
 
-app.get("/adminHomePage/salesReport",function(req,res){
-    if(req.session.loggedin){
-        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and ForSale = 'True'",function(err,results,fields){
-            res.render("salesReport.ejs",{sales:results});
-        });
-    } else{
-        res.send("Please login to show to this page!");
-    }
-});
-=======
-            });
-
-
-        }
-    });
-
-})
->>>>>>> origin
 
 app.get('/agentHomePage', function (request, response) {
     if (request.session.loggedin) {
