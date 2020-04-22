@@ -3,13 +3,14 @@ var bodyParser = require("body-parser");
 var mysql = require("mysql");
 var session = require("express-session");
 var path = require("path");
+var methodOverride = require("method-override");
 
 
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: 'yesbroker'
+    password: 'Sohan022@',
+    database: 'project'
 });
 connection.connect(function (err) {
     if (err) {
@@ -27,7 +28,8 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.set("view engine", "ejs");
+app.use(methodOverride("_method"));
+app.set("view engine","ejs");
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/Login.html'));
@@ -37,7 +39,7 @@ app.post('/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        connection.query('SELECT * FROM logintable1 WHERE UserID = ? AND Passwrd = ?', [username, password], function (error, results, fields) {
+        connection.query('SELECT * FROM Login WHERE UserID = ? AND Password = ?', [username, password], function (error, results, fields) {
             if (error) {
                 console.log(error);
             }
@@ -45,7 +47,7 @@ app.post('/auth', function (request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                if (results[0].usertype == "Admin") {
+                if (results[0].UserType == "Admin") {
                     response.redirect('/adminHomePage');
                 }
                 else {
@@ -81,7 +83,7 @@ app.get('/adminHomePage/register', function (request, response) {
 });
 
 app.post('/adminHomePage/register', function (req, res) {
-    connection.query('SELECT * FROM Logintable1 WHERE UserID = ?', [req.body.username], function (error, results, fields) {
+    connection.query('SELECT * FROM Login WHERE UserID = ?', [req.body.username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -95,7 +97,7 @@ app.post('/adminHomePage/register', function (req, res) {
                     console.log(err);
                 }
 
-                var newLogin = "insert into Logintable1(UserID,Password,Email,UserType) values(?,?,?,?)";
+                var newLogin = "insert into Login(UserID,Password,Email,UserType) values(?,?,?,?)";
                 var loginvalue = [req.body.username, req.body.password, req.body.email, 'Agent'];
                 var newAgent = "insert into Agent(AgentID,UserID,FirstName,LastName,Gender,Age,City,PhnNum) values(?,?,?,?,?,?,?,?)";
                 var agentvalue = [foundId[0].id + 1, req.body.username, req.body.firstname, req.body.lastname, req.body.gender, req.body.age, req.body.city, req.body.phnum];
@@ -114,13 +116,95 @@ app.post('/adminHomePage/register', function (req, res) {
                     }
                 });
 
-            });
-
-
+            });    
+            
         }
     });
+    
+});
 
-})
+app.get('/adminHomePage/agents',function(request,response){
+    if(request.session.loggedin){
+        connection.query("select Login.UserID id,AgentID,FirstName,LastName,Email,PhnNum,City,Gender,Age from Agent,Login where Login.UserID = Agent.UserID",function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                response.render("agents.ejs",{agents:results});
+            }
+        })
+        
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.post('/adminHomePage/agents',function(request,response){
+    if(request.session.loggedin){
+        connection.query("select Login.UserID id,AgentID,FirstName,LastName,Email,PhnNum,City,Gender,Age from Agent,Login where Login.UserID = Agent.UserID and Login.UserID =?",[request.body.id],function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                response.render("search.ejs",{agent:results[0],id:request.body.id});
+            }
+        });
+        
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.get('/adminHomePage/agents/:id/edit',function(req,res){
+    if(req.session.loggedin){
+        connection.query("select Login.UserID id,Password,AgentID,FirstName,LastName,Email,PhnNum,City,Gender,Age from Agent,Login where Login.UserID = Agent.UserID and Agent.UserID = ?",[req.params.id],function(err,results,fields){
+            if(err){
+                console.log(err);
+            } else if(results.length > 0){
+                res.render("edit.ejs",{agent:results[0]});
+            }
+        });
+    }
+    else{
+        res.send("Please login to view this page!");
+    }
+    
+    
+});
+
+app.put('/adminHomePage/agents/:id',function(req,res){
+    var updateAgent = "update Agent set FirstName =?,LastName =?,Gender = ?,Age =?, City =?, PhnNum =? where UserID =?";
+    var agentvalue = [req.body.FirstName,req.body.LastName,req.body.Gender,req.body.Age,req.body.City,req.body.PhnNum,req.params.id];
+    connection.query(updateAgent,agentvalue,function(err,results,fields){
+        if(err){
+            console.log(err);
+        }
+        
+        connection.query("update Login set Email =? where UserID =?",[req.body.Email,req.params.id],function(err,results,fields){
+            if(err){
+                console.log(err);
+            } else{
+                res.redirect("/adminHomePage/agents");
+            }
+        });
+    });
+});
+
+app.delete('/adminHomePage/agents/:id',function(req,res){
+    connection.query("delete from Agent where UserID = ?",[req.params.id],function(err){
+        if(err){
+            console.log(err);
+        }
+        connection.query("delete from Login where UserID = ?",[req.params.id],function(err){
+            if(err){
+                console.log(err);
+            }
+            res.redirect("/adminHomePage/agents");
+        });
+        
+    });
+});
+
 
 app.get('/agentHomePage', function (request, response) {
     if (request.session.loggedin) {
