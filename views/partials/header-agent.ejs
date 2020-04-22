@@ -14,19 +14,25 @@
 
     <style>
         .test {
-            margin-top: 20%;
+            margin-top: 40%;
         }
 
         .test a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
-            font-size: 25px;
-            color: #818181;
+            font-size: 18px;
+            color: #353030;
             display: block;
             transition: 0.3s;
         }
 
         .test a:hover {
+            color: #f1f1f1;
+            background-color: #616161;
+        }
+
+        .test a:active {
+            text-decoration: underline;
             color: #f1f1f1;
         }
     </style>
@@ -34,8 +40,8 @@
 
 <body style="overflow: hidden;">
     <div class="row">
-        <div class="col-md-3" style="background-color:#111111; min-height: 100vh;">
-            <h1 style="color: white;">Agent Portal</h1>
+        <div class="col-md-2" style="background-color:#111111; min-height: 100vh;">
+            <h1 style="color: white; font-size: 32px;">Agent Portal</h1>
             <div class="test">
                 <div>
                     <a href="/agentHomePage/AddProperty">Register Property</a>
