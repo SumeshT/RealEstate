@@ -1,0 +1,77 @@
+<%- include("partials/header") -%>
+
+<div class="col-md-9" style="margin-top: 10px;">
+
+    <form action="/adminHomePage/salesReport" class="form-inline" method="POST">
+        <label class="sr-only" for="in">Username</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="in" value="<%=id%>" name="agentUserid">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+        <div>
+          <a href="/adminHomePage/salesReport/<%=id%>/sold" class="btn btn-outline-primary" style="margin-left: 200px;">Sold</a>
+        </div>
+        <div>
+          <a href="/adminHomePage/salesReport/<%=id%>/rent" class="btn btn-outline-primary" style="margin-left: 10px;">Rent</a>
+        </div>
+        <% if(!fSale){%>
+          <div>
+            <a href="/adminHomePage/salesReport" class="btn btn-outline-primary" style="margin-left: 10px;">All Sales</a>
+          </div>
+        <%}%>
+    </form>
+    <%if(sales.length > 0){%>
+      <table border="1">
+        <thead>
+          <tr>
+            <th >Sr.Num</th>
+            <th >PropID</th>
+            <th >Date</th>
+            <th>Price</th>
+            <th>PropType</th>
+            <% if(fSale){%>
+              <th>Sold/Rent</th>
+            <%}%>
+            <th >TenantID</th>
+            <th >T.FirstName</th>
+            <th >T.LastName</th>
+            <th >AgentUserID</th>
+            <th >A.FirstName</th>
+            <th >A.LastName</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% var i = 1; %>
+           <% sales.forEach(function(sale){ %>
+            <tr>
+                <td><%= i %></td>
+                <td><%=sale.pid%></td>
+                <td><%=sale.pd%></td>
+                <td><%=sale.Price%></td>
+                <td><%=sale.PropType%></td>
+                <% if(fSale){%>
+                  <%if(sale.ForSale == 'True'){%>
+                    <td>Sold</td>
+                  <%}else{%>
+                    <td>Rent</td>
+                  <%}%>
+                <%}%>
+                <td><%=sale.tid%></td>
+                <td><%=sale.tf%></td>
+                <td><%=sale.tl%></td>
+                <td><%=sale.aid%></td>
+                <td><%=sale.af%></td>
+                <td><%=sale.al%></td>
+            </tr>
+           <% i = i + 1; %>
+
+          <% }); %>
+          
+        </tbody>
+      </table>
+    <%} else{%>
+      <h2>No Result Found</h2>
+    <%}%>
+    
+
+</div>
+
+<%- include("partials/footer") -%>
