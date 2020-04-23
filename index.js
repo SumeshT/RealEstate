@@ -205,10 +205,76 @@ app.delete('/adminHomePage/agents/:id',function(req,res){
     });
 });
 
+app.get("/adminHomePage/salesReport",function(req,res){
+    if(req.session.loggedin){
+        var fSale = true;
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,ForSale,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID",function(err,results,fields){
+            res.render("salesReport.ejs",{sales:results,fSale:fSale});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
+app.get("/adminHomePage/salesReport/sold",function(req,res){
+    if(req.session.loggedin){
+        var fSale = false;
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,ForSale,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and ForSale = 'True'",function(err,results,fields){
+            res.render("salesReport.ejs",{sales:results,fSale:fSale});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
+app.get("/adminHomePage/salesReport/rent",function(req,res){
+    if(req.session.loggedin){
+        var fSale = false;
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,ForSale,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and ForSale = 'False'",function(err,results,fields){
+            res.render("salesReport.ejs",{sales:results,fSale:fSale});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
+app.post("/adminHomePage/salesReport",function(req,res){
+    if(req.session.loggedin){
+        var fSale = true;
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,ForSale,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and Agent.UserID =?",[req.body.agentUserid],function(err,results,fields){
+            res.render("searchSales.ejs",{sales:results,fSale:fSale,id:req.body.agentUserid});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
+app.get("/adminHomePage/salesReport/:id/sold",function(req,res){
+    if(req.session.loggedin){
+        var fSale = false;
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,ForSale,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and ForSale = 'True' and Agent.UserID =?",[req.params.id],function(err,results,fields){
+            res.render("searchSales.ejs",{sales:results,fSale:fSale,id:req.params.id});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
+app.get("/adminHomePage/salesReport/:id/rent",function(req,res){
+    if(req.session.loggedin){
+        var fSale = false;
+        connection.query("select Purchase.PropID pid,Tenant.TenantID tid,ForSale,Purchase.Date pd,Tenant.FirstName tf,Tenant.LastName tl,Price,PropType,Agent.UserID aid,Agent.FirstName af,Agent.LastName al from Purchase,Tenant,Agent,Property where Purchase.TenantID = Tenant.TenantID and Property.PropID = Purchase.PropID and Agent.AgentID = Property.AgentID and ForSale = 'False' and Agent.UserID =?",[req.params.id],function(err,results,fields){
+            res.render("searchSales.ejs",{sales:results,fSale:fSale,id:req.params.id});
+        });
+    } else{
+        res.send("Please login to show to this page!");
+    }
+});
+
 
 app.get('/agentHomePage', function (request, response) {
     if (request.session.loggedin) {
-        //response.send('Welcome to agent home page, ' + request.session.username + '!');
+        //response.send('Welcome to adminHomePage/salesReportagent home page, ' + request.session.username + '!');
         // response.sendFile(path.join(__dirname + '/views/agentHomepage1.ejs'));
         response.render("agentHomePage1.ejs")
     } else {
