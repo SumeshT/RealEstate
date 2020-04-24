@@ -4,6 +4,9 @@
     <list default="true" id="c110856a-554b-4c9f-95a1-ad6d9895b058" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/partials/header-agent.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/header-agent.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/registerProperty.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/registerProperty.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/search.ejs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../views/Base.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../views/Base.html" afterDir="false" />

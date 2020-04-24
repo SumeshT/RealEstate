@@ -1,0 +1,67 @@
+<%- include("partials/header-agent") -%>
+<div class="col-md-9" style="margin-top: 10px;">
+    <form action="/agentHomePage/ModifyProperty" class="form-inline" method="POST">
+        <label class="sr-only" for="in">Propertyid</label>
+        <input type="number" class="form-control mb-2 mr-sm-2" id="in" value = "<%= Propertyid %>" name="Propertyid">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+        <div>
+            <a href="/agentHomePage/ModifyProperty" class="btn btn-outline-primary" style="margin-left: 200px;"> All Properties</a>
+        </div>
+    </form>
+
+
+    <% if(Property) { %>
+    <table border="1">
+        <thead>
+        <tr>
+            <th >PropertyID</th>
+            <th >Propertytype</th>
+            <th >Price</th>
+            <th >Description</th>
+            <th >isOccupied</th>
+            <th >BHK</th>
+            <th >ForSale</th>
+            <th >Street</th>
+            <th >Locality</th>
+            <th >City</th>
+            <th >State</th>
+            <th >OwnerID</th>
+            <th >Area</th>
+            <th >Date</th>
+            <th colspan="2" class="text-center">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><%=Property.Propertyid%></td>
+            <td><%=Property.ptype%></td>
+            <td><%=Property.price%></td>
+            <td><%=Property.description%></td>
+            <td><%=Property.isOccupied%></td>
+            <td><%=Property.BHK%></td>
+            <td><%=Property.forSale%></td>
+            <td><%=Property.street%></td>
+            <td><%=Property.locality%></td>
+            <td><%=Property.city%></td>
+            <td><%=Property.state%></td>
+            <td><%=Property.pincode%></td>
+            <td><%=Property.OwnerID%></td>
+            <td><%=Property.Area%></td>
+            <td><%=Property.entry%></td>
+            <td><a href="/agentHomePage/ModifyProperty/<%= Property.Propertyid %>/edit"  class="btn btn-outline-warning btn-sm"> Edit</a></td>
+            <form action="/agentHomePage/ModifyProperty/<%= Property.Propertyid %>?_method=DELETE" method="POST">
+                <td><button class="btn btn-outline-danger btn-sm">Delete</button></td>
+            </form>
+        </tr>
+
+        </tbody>
+    </table>
+    <% } else{ %>
+        <h3>No Records found</h3>
+    <% } %>
+
+
+</div>
+
+
+<%- include("partials/footer") -%>

@@ -1,0 +1,8 @@
+<%- include("partials/header-agent") -%>
+    <form action="/agentHomePage/propertySales/rentReport?_method=PUT" method="post">
+        <input type="number" placeholder="Propertyid" name="Propertyid" required><br>
+        <input type="number" placeholder="New TenantId" name="TenantId" required><br>
+        <input type="date" placeholder="Date" name="rentDate" required><br>
+        <input type="submit" value="Report">
+    </form>
+<%- include("partials/footer") -%>

@@ -1,0 +1,61 @@
+<%- include("partials/header-agent") -%>
+<div class="col-md-9" style="margin-top: 10px;">
+
+    <form action="/agentHomePage/ModifyProperty" class="form-inline" method="POST">
+        <label class="sr-only" for="in">PropertyId</label>
+        <input type="number" class="form-control mb-2 mr-sm-2" id="in" placeholder="Propertyid" name="Propertyid">
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th >PropertyID</th>
+            <th >Propertytype</th>
+            <th >Price</th>
+            <th >isOccupied</th>
+            <th >BHK</th>
+            <th >ForSale</th>
+            <th >Street</th>
+            <th >Locality</th>
+            <th >City</th>
+            <th >State</th>
+            <th>Pincode</th>
+            <th >OwnerID</th>
+            <th >Area</th>
+            <th >Date</th>
+            <th colspan="2" class="text-center">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% Properties.forEach(function(Properti){ %>
+            <tr>
+                <td><%=Properti.Propertyid%></td>
+                <td><%=Properti.ptype%></td>
+                <td><%=Properti.price%></td>
+                <td><%=Properti.isOccupied%></td>
+                <td><%=Properti.BHK%></td>
+                <td><%=Properti.forSale%></td>
+                <td><%=Properti.street%></td>
+                <td><%=Properti.locality%></td>
+                <td><%=Properti.city%></td>
+                <td><%=Properti.state%></td>
+                <td><%=Properti.pincode%></td>
+                <td><%=Properti.OwnerId%></td>
+                <td><%=Properti.Area%></td>
+                <td><%=Properti.entry%></td>
+                <td><a href="/agentHomePage/ModifyProperty/<%= Properti.Propertyid %>/edit"  class="btn btn-outline-warning btn-sm"> Edit</a></td>
+                <form action="/agentHomePage/ModifyProperty/<%= Properti.Propertyid %>?_method=DELETE" method="POST">
+                    <td><button class="btn btn-outline-danger btn-sm">Delete</button></td>
+                </form>
+            </tr>
+
+        <% }); %>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<%- include("partials/footer") -%>

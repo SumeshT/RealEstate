@@ -350,7 +350,158 @@ app.post('/agentHomePage/Addproperty/Add', function (req, res) {
     });
 });
 
+app.get('/agentHomePage/ModifyProperty',function(request,response){
+    if(request.session.loggedin){
+        connection.query("select p.Propertyid,p.ptype,p.price,p.description,p.isOccupied,p.BHK,p.forSale,p.street,p.locality,p.city,p.state,p.pincode,p.OwnerId,p.Area,p.entry from property p,agent a where p.AgentID = a.agentId and a.Userid = ?",[request.session.username],function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                //response.send("HELLO THERE AGENT.")
+                response.render("ModifyProperty.ejs",{Properties:results});
+            }
+        })
 
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.post('/agentHomePage/ModifyProperty',function(request,response){
+    if(request.session.loggedin){
+        connection.query("select p.Propertyid,p.ptype,p.Price,p.Description,p.isOccupied,p.BHK,p.ForSale,p.Street,p.Locality,p.City,p.State,p.pincode,p.OwnerID,p.Area,p.entry from property p,agent a where p.AgentID = a.agentId and a.Userid = ? and p.PropertyID =?",[request.session.username,request.body.Propertyid],function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                //  response.send("HELLO THERE AGENT");
+                response.render("searchProperty.ejs",{Property:results[0],Propertyid:request.body.Propertyid});
+            }
+        });
+
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.get('/agentHomePage/ModifyProperty/:Propertyid/edit',function(req,res){
+    if(req.session.loggedin){
+        connection.query("select p.Propertyid,p.description,p.price,p.isOccupied,p.ptype,p.bhk,p.forSale,p.street,p.locality,p.city,p.state,p.pincode,p.Area from property p where p.Propertyid = ?",[req.params.Propertyid],function(err,results,fields){
+            if(err){
+                console.log(err);
+            } else if(results.length > 0){
+                res.render("editProperty.ejs",{property:results[0]});
+            }
+        });
+    }
+    else{
+        res.send("Please login to view this page!");
+    }
+});
+
+app.put('/agentHomePage/ModifyProperty/:Propertyid',function(req,res){
+    var updateProperty = "update property set description =?,price =?,isOccupied = ?,ptype =?, bhk =?, forSale =? ,street =?,locality =?,city =?,state =?,pincode =?,area =? where Propertyid =?";
+    var Propertyvalue = [req.body.Description,req.body.Price,req.body.Occupied,req.body.PropertyType,req.body.BHK,req.body.ForSale,req.body.Street,req.body.Locality,req.body.City,req.body.State,req.body.Pincode,req.body.Area,req.params.Propertyid];
+    connection.query(updateProperty,Propertyvalue,function(err,results,fields){
+        if(err){
+            console.log(err);
+        }
+
+        res.redirect("/agentHomePage/ModifyProperty");
+    });
+});
+
+app.delete('/agentHomePage/ModifyProperty/:Propertyid',function(req,res){
+    connection.query("delete from Property where PropertyID = ?",[req.params.Propertyid],function(err){
+        if(err){
+            console.log(err);
+        }
+        res.redirect("/agentHomePage/ModifyProperty");
+    });
+});
+
+app.get('/agentHomePage/propertySales', function (request, response) {
+    if (request.session.loggedin) {
+        //response.sendFile(path.join(__dirname + '/AddProperty.html'));
+        response.render("propertySales.ejs")
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.get('/agentHomePage/propertySales/soldReport', function (request, response) {
+    if (request.session.loggedin) {
+        //response.sendFile(path.join(__dirname + '/AddProperty.html'));
+        response.render("soldReport.ejs")
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.put('/agentHomePage/propertySales/soldReport', function (req, res) {
+    var newPurchase = "insert into purchase(date,Propertyid) values(?,?)";
+    var Purchasevalue = [req.body.soldDate, req.body.Propertyid];
+    var updateProperty = "update property set isOccupied = 'TRUE',OwnerId = ? where Propertyid = ?";
+    var Propertyup = [req.body.OwnerId , req.body.Propertyid];
+    connection.query("Select forSale,isOccupied from property where Propertyid = ?",[req.body.Propertyid],function (error,results,fields) {
+        if(results[0].forSale=='TRUE' && results [0].isOccupied=='FALSE'){
+            connection.query(newPurchase, Purchasevalue, function (error, results, fields) {
+                if (error) {
+                    console.log(error);
+                }
+                connection.query(updateProperty, Propertyup, function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log("1 record inserted");
+                        res.redirect('/agentHomePage');
+                    }
+                });
+            });
+        }
+        else{
+            console.log(error);
+            res.redirect('/agentHomePage');
+        }
+    });
+});
+
+app.get('/agentHomePage/propertySales/rentReport', function (request, response) {
+    if (request.session.loggedin) {
+        //response.sendFile(path.join(__dirname + '/AddProperty.html'));
+        response.render("rentReport.ejs")
+    } else {
+        response.send('Please login to view this page!');
+    }
+});
+
+app.put('/agentHomePage/propertySales/rentReport', function (req, res) {
+    var newRent = "insert into purchase(date,Propertyid,TenantId) values(?,?,?)";
+    var Rentvalue = [req.body.rentDate,req.body.Propertyid,req.body.TenantId];
+    var updateTenant = "update tenant set AgentId = (select AgentId from agent a where a.UserId = ?) where TenantId = ?";
+    var Tenantup = [req.session.username,req.body.TenantId];
+    connection.query("Select forSale,isOccupied from property where PropertyId = ?",[req.body.Propertyid],function (error,results,fields) {
+        if(results[0].forSale=='FALSE' && results[0].isOccupied=='FALSE') {
+            connection.query(newRent, Rentvalue, function (error, results, fields) {
+                if (error) {
+                    console.log(error);
+                }
+                connection.query(updateTenant, Tenantup, function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                    }else {
+                        console.log("1 record inserted");
+                        res.redirect('/agentHomePage');
+                    }
+                });
+            });
+        }
+        else{
+            console.log(error);
+            res.redirect('/agentHomePage');
+        }
+    });
+});
 
 var server = app.listen(3000, function () {
     console.log('Server is running..');
