@@ -271,6 +271,52 @@ app.get("/adminHomePage/salesReport/:id/rent",function(req,res){
     }
 });
 
+app.get("/adminHomePage/propertyReport",function(req,res){
+    if(req.session.loggedin){
+        connection.query("select * from Property where Property.IsOccupied = 'False'",function(err,results,fields){
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.render("propertyReport.ejs",{properties:results});
+            }
+        })
+    } else{
+        res.send("please login to show to this page!");
+    }
+})
+
+app.post("/adminHomePage/propertyReport",function(req,res){
+    if(req.session.loggedin){
+        var minPrice = 0;
+        var maxPrice = Number.MAX_SAFE_INTEGER;
+        if(req.body.minPrice) minPrice = req.body.minPrice;
+        if(req.body.maxPrice) maxPrice = req.body.maxPrice;
+        if(req.body.city){
+            connection.query("select * from Property where Property.IsOccupied = 'False' and Property.City =? and Price >=? and Price <=?",[req.body.city,req.body.minPrice,maxPrice],function(err,results,fields){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("searchCity.ejs",{properties:results,city:req.body.city,minPrice:req.body.minPrice,maxPrice:req.body.maxPrice});
+                }
+            });
+        }
+        else{
+            connection.query("select * from Property where Property.IsOccupied = 'False' and Price >=? and Price <=?",[req.body.minPrice,req.body.maxPrice],function(err,results,fields){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.render("searchCity.ejs",{properties:results,city:req.body.city,minPrice:req.body.minPrice,maxPrice:req.body.maxPrice});
+                }
+            });
+        }
+        
+    } else{
+        res.send("please login to show to this page!");
+    }
+});
 
 app.get('/agentHomePage', function (request, response) {
     if (request.session.loggedin) {

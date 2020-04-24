@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Raleway&display=swap" rel="stylesheet">
+
+
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 900px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+  width:500px;
+
+}
+.container h3{
+    font-family: 'Raleway';
+    margin-bottom: 0px;
+}
+
+.container #price{
+    color: #01B627;
+    font-family: 'Raleway';
+    font-weight: 700;
+    font-size: 32px;
+    margin-bottom: 4px;
+    margin-right: 6px;
+}
+
+.container #address{
+    font-family: 'Lato';
+    font-weight: 700;
+    color: #AEAEAE;
+    font-size: 14px;
+    margin-top: 0px;
+}
+
+.container #description{
+    font-family: 'Lato';
+    font-weight: 400;
+    color: #00061C;
+    font-size: 14px;
+    margin-top: 0px;
+}
+.button{
+ background-color: #4CAF50; /* Green */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.modify {
+  background-color: white;
+  color: black;
+  border: 2px solid #007FD8;
+  color: #007FD8;
+}
+.modify:hover{
+    background-color: #007FD8;
+    color: white;
+}
+
+.delete{
+  background-color: white;
+  color: black;
+  border: 2px solid #FD1B1B;
+  color: #FD1B1B;
+}
+.delete:hover{
+    background-color: #FD1B1B;
+    color: white;
+    border: 2px solid #FD1B1B;
+}
+.attributes{
+margin-left: -16px;
+}
+.attributes li{
+  display: inline;
+  font-family: 'Lato';
+  font-weight: 700;
+  color: #BFBFBF;
+}
+
+.btcontainer #status{
+    float: right;
+    color: white;
+    text-align: center;
+    background-color: #AEAEAE;
+    border-radius: 0px 0px 0px 4px;
+    font-family: 'Raleway';
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px;
+    margin-left: 70px;
+    margin-top: -40px;
+    margin-bottom: 30px;
+}
+
+  .test {
+      margin-top: 40%;
+  }
+
+  .test a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #353030;
+      display: block;
+      transition: 0.3s;
+  }
+
+  .test a:hover {
+      color: #f1f1f1;
+      background-color: #616161;
+  }
+
+  .test a:active {
+      text-decoration: underline;
+      color: #f1f1f1;
+  }
+ #ind,#indx{
+    max-width:150px;
+  }
+
+</style>
+</head>
+<body style="overflow-x:hidden;">
+  <div class="row">
+    <div class="col-md-3" style="background-color:#111111; min-height: 100vh;">
+        <h1 style="color: white;">Office Admin Portal</h1>
+        <div class="test">
+            <div>
+                <a href="/adminHomePage/register">Register an Agent</a>
+            </div>
+            <div>
+                <a href="/adminHomePage/agents">Remove/Modify Agent</a>
+            </div>
+            <div>
+                <a href="/adminHomePage/salesReport">Sales Report</a>
+            </div>
+            <div>
+                <a href="/adminHomePage/propertyReport">Property Report</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9" style="margin-top: 10px; overflow: hidden;">
+      <form action="/adminHomePage/propertyReport" class="form-inline" method="POST" style="margin-left:20px;">
+        <label class="sr-only" for="in">city</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="in" placeholder="City" name="city">
+
+        <label class="sr-only" for="ind">city</label>
+        <input type="number" class="form-control mb-2 mr-sm-2" id="ind" placeholder="min-price" name="minPrice" min="0">
+
+        <label class="sr-only" for="indx">city</label>
+        <input type="number" class="form-control mb-2 mr-sm-2" id="indx" placeholder="max-price" name="maxPrice" min="0">
+
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+      <% properties.forEach(function(property){%>
+        <div class="card">
+        <img src="<%=property.Image%>" alt="Avatar" style="width:300px; max-height: 260px;">
+        <div class="container">
+          <span id="price">₹<%=property.Price%></span> 
+          <h3><b><%=property.Name%></b></h3> 
+          <p id="address"><%=property.Street%>, <%=property.Locality%>, <%=property.city%>, <%=property.State%>, <%= property.Pincode%></p> 
+          <p id="description"><%=property.Description%></p>
+
+          <ul class="attributes">
+            <li><%=property.PropType%> &nbsp; </li>
+            
+            <li style="list-style: none">|</li>
+
+            <li><%=property.Area%> Sqft &nbsp; </li>
+
+            <li style="list-style: none">|</li>
+
+            <li><%= property.BHK%> BHK &nbsp; </li>
+            
+          </ul>
+          
+
+        </div>
+        <div class="btcontainer" style="float: right; display: flex;flex-direction: column; margin-top: 40px">
+          <%if(property.ForSale == 'True'){%>
+            <span id="status">Sale</span>
+          <%}else{%>
+            <span id="status">Rent</span>
+          <%}%>
+          <!-- <a href="#"><button class="button modify">Modify</button>   </a>
+          <a href="#"><button class="button delete">Delete</button>   </a> -->
+            </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html> 
