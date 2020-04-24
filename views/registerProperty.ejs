@@ -1,10 +1,9 @@
 <%- include("partials/header-agent") -%>
 <div class="Property">
     <form action="/agentHomePage/Addproperty/Add" method="POST">
-        <input type="text" placeholder="Propertyid" name="Propertyid" required><br>
-        <input type="text" placeholder="type" name="Type" required><br>
-        <input type="text" placeholder="price" name="Price" required><br>
-        <input type="text" placeholder="description" name="Description" required><br>
+        <input type="text" placeholder="type" name="type" required><br>
+        <input type="text" placeholder="price" name="price" required><br>
+        <input type="text" placeholder="description" name="description" required><br>
         <div class="dropdown">
             <label>IsOccupied
                 <select name="isOccupied" required>
@@ -22,15 +21,16 @@
                 </select>
             </label>
         </div>
-        <input type="text" placeholder="street" name="Street" required><br>
-        <input type="text" placeholder="locality" name="Locality" required><br>
-        <input type="text" placeholder="city" name="City" required><br>
-        <input type="text" placeholder="state" name="State" required><br>
-        <input type="number" placeholder="pincode" name="Pincode" required><br>
-        <input type="number" placeholder="ownerid" name="OwnerID" required><br>
-        <input type="number" placeholder="agentid" name="AgentID" required><br>
-        <input type="number" placeholder="area" name="Area" required><br>
-        <input type="date" placeholder="date" name="Date" required><br>
+        <input type="text" placeholder="street" name="street" required><br>
+        <input type="text" placeholder="locality" name="locality" required><br>
+        <input type="text" placeholder="city" name="city" required><br>
+        <input type="text" placeholder="state" name="state" required><br>
+        <input type="number" placeholder="pincode" name="pincode" required><br>
+        <input type="number" placeholder="ownerid" name="ownerid" required><br>
+        <input type="number" placeholder="area" name="area" required><br>
+        <input type="date" placeholder="date" name="date" required><br>
+        <input type="text" placeholder="image" name="image" required><br>
+        <input type="text" placeholder="name" name="name" required><br>
         <input type="submit" value="AddProperty">
     </form>
 

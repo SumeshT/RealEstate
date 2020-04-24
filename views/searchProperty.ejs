@@ -1,5 +1,171 @@
-<%- include("partials/header-agent") -%>
-<div class="col-md-9" style="margin-top: 10px;">
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Raleway&display=swap" rel="stylesheet">
+
+
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 900px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px 16px;
+  width:500px;
+
+}
+.container h3{
+    font-family: 'Raleway';
+    margin-bottom: 0px;
+}
+
+.container #price{
+    color: #01B627;
+    font-family: 'Raleway';
+    font-weight: 700;
+    font-size: 32px;
+    margin-bottom: 4px;
+    margin-right: 6px;
+}
+
+.container #address{
+    font-family: 'Lato';
+    font-weight: 700;
+    color: #AEAEAE;
+    font-size: 14px;
+    margin-top: 0px;
+}
+
+.container #description{
+    font-family: 'Lato';
+    font-weight: 400;
+    color: #00061C;
+    font-size: 14px;
+    margin-top: 0px;
+}
+.button{
+ background-color: #4CAF50; /* Green */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.modify {
+  background-color: white;
+  color: black;
+  border: 2px solid #007FD8;
+  color: #007FD8;
+}
+.modify:hover{
+    background-color: #007FD8;
+    color: white;
+}
+
+.delete{
+  background-color: white;
+  color: black;
+  border: 2px solid #FD1B1B;
+  color: #FD1B1B;
+}
+.delete:hover{
+    background-color: #FD1B1B;
+    color: white;
+    border: 2px solid #FD1B1B;
+}
+.attributes{
+margin-left: -16px;
+}
+.attributes li{
+  display: inline;
+  font-family: 'Lato';
+  font-weight: 700;
+  color: #BFBFBF;
+}
+
+.btcontainer #status{
+    float: right;
+    color: white;
+    text-align: center;
+    background-color: #AEAEAE;
+    border-radius: 0px 0px 0px 4px;
+    font-family: 'Raleway';
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px;
+    margin-left: 70px;
+    margin-top: -40px;
+    margin-bottom: 30px;
+}
+
+  .test {
+      margin-top: 40%;
+  }
+
+  .test a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #353030;
+      display: block;
+      transition: 0.3s;
+  }
+
+  .test a:hover {
+      color: #f1f1f1;
+      background-color: #616161;
+  }
+
+  .test a:active {
+      text-decoration: underline;
+      color: #f1f1f1;
+  }
+ #ind,#indx{
+    max-width:150px;
+  }
+
+</style>
+</head>
+<body style="overflow-x: hidden;">
+    <div class="row">
+        <div class="col-md-3" style="background-color:#111111; min-height: 100vh;">
+            <h1 style="color: white;">Agent Portal</h1>
+            <div class="test">
+                <div>
+                    <a href="/agentHomePage/AddProperty">Register Property</a>
+                </div>
+                <div>
+                    <a href="/agentHomePage/ModifyProperty">Remove/Modify Property</a>
+                </div>
+                <div>
+                    <a href="/agentHomePage/propertySales">Report Sales </a>
+                </div>
+
+            </div>
+        </div>
+    <div class="col-md-9" style="margin-top: 10px; overflow: hidden;">
     <form action="/agentHomePage/ModifyProperty" class="form-inline" method="POST">
         <label class="sr-only" for="in">Propertyid</label>
         <input type="number" class="form-control mb-2 mr-sm-2" id="in" value = "<%= Propertyid %>" name="Propertyid">
@@ -8,60 +174,47 @@
             <a href="/agentHomePage/ModifyProperty" class="btn btn-outline-primary" style="margin-left: 200px;"> All Properties</a>
         </div>
     </form>
-
-
-    <% if(Property) { %>
-    <table border="1">
-        <thead>
-        <tr>
-            <th >PropertyID</th>
-            <th >Propertytype</th>
-            <th >Price</th>
-            <th >Description</th>
-            <th >isOccupied</th>
-            <th >BHK</th>
-            <th >ForSale</th>
-            <th >Street</th>
-            <th >Locality</th>
-            <th >City</th>
-            <th >State</th>
-            <th >OwnerID</th>
-            <th >Area</th>
-            <th >Date</th>
-            <th colspan="2" class="text-center">Options</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><%=Property.Propertyid%></td>
-            <td><%=Property.ptype%></td>
-            <td><%=Property.price%></td>
-            <td><%=Property.description%></td>
-            <td><%=Property.isOccupied%></td>
-            <td><%=Property.BHK%></td>
-            <td><%=Property.forSale%></td>
-            <td><%=Property.street%></td>
-            <td><%=Property.locality%></td>
-            <td><%=Property.city%></td>
-            <td><%=Property.state%></td>
-            <td><%=Property.pincode%></td>
-            <td><%=Property.OwnerID%></td>
-            <td><%=Property.Area%></td>
-            <td><%=Property.entry%></td>
-            <td><a href="/agentHomePage/ModifyProperty/<%= Property.Propertyid %>/edit"  class="btn btn-outline-warning btn-sm"> Edit</a></td>
-            <form action="/agentHomePage/ModifyProperty/<%= Property.Propertyid %>?_method=DELETE" method="POST">
-                <td><button class="btn btn-outline-danger btn-sm">Delete</button></td>
-            </form>
-        </tr>
-
-        </tbody>
-    </table>
-    <% } else{ %>
+      <% if(Property){%>
+          <div class="card">
+          <img src="<%=Property.Image%>" alt="Avatar" style="width:300px; max-height: 260px;">
+          <div class="container">
+            <span id="price">₹<%=Property.price%></span> 
+            <h3><b><%= Property.name%></b></h3> 
+            <p id="address"><%=Property.street%>, <%=Property.locality%>, <%=Property.city%>, <%=Property.state%>, <%= Property.pincode%></p> 
+            <p id="description"><%=Property.description%></p>
+  
+            <ul class="attributes">
+              <li><%=Property.proptype%> &nbsp; </li>
+              
+              <li style="list-style: none">|</li>
+  
+              <li><%=Property.Area%> Sqft &nbsp; </li>
+  
+              <li style="list-style: none">|</li>
+  
+              <li><%= Property.BHK%> BHK &nbsp; </li>
+              
+            </ul>
+            
+  
+          </div>
+        <div class="btcontainer" style="float: right; display: flex;flex-direction: column; margin-top: 40px">
+          <%if(Property.ForSale == 'True'){%>
+            <span id="status">Sale</span>
+          <%}else{%>
+            <span id="status">Rent</span>
+          <%}%>
+                <td><a href="/agentHomePage/ModifyProperty/<%= Property.Propid %>/edit"  class="btn btn-outline-warning btn-sm"> Edit</a></td>
+                <form action="/agentHomePage/ModifyProperty/<%= Property.Propid %>?_method=DELETE" method="POST">
+                    <td><button class="btn btn-outline-danger btn-sm">Delete</button></td>
+                </form>
+            </div>
+      </div>
+      <% }
+      else{ %>
         <h3>No Records found</h3>
     <% } %>
-
-
-</div>
-
-
-<%- include("partials/footer") -%>
+    </div>
+  </div>
+</body>
+</html> 
