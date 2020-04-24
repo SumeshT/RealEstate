@@ -1,6 +1,19 @@
 <%- include("partials/header") -%>
 
 <div class="col-md-9" style="margin:auto 0; text-align:center;">
+    <div class="container">
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-success" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+        <% if(success && success.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
+    </div>
+
     <div class="container"></div>
     <h1 style="text-align: center;">SignUp</h1>
     <div class="form-inline" style="width: 70%; margin: 20px auto;">

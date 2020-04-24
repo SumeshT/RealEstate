@@ -2,9 +2,9 @@
 
 <div class="col-md-9" style="margin:auto 0; text-align:center;">
     <div class="container"></div>
-    <h1 style="text-align: center;"><%= property.Propertyid %></h1>
+    <h1 style="text-align: center;"><%= property.Propid %></h1>
     <div class="form-inline" style="width: 70%; margin: 20px auto;">
-        <form action="/agentHomePage/ModifyProperty/<%= property.Propertyid %>?_method=PUT" method="POST">
+        <form action="/agentHomePage/ModifyProperty/<%= property.Propid %>?_method=PUT" method="POST">
             <div class="form-group">
                 <input class="form-control" type="text" value="<%= property.description %>" name="Description" placeholder="Description"required>
                 <input class="form-control" type="number" value="<%= property.price %>" name="Price" placeholder="Price">
@@ -18,7 +18,7 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" value="<%= property.ptype %>" name="PropertyType" placeholder="PropertyType" required>
+                    <input class="form-control" type="text" value="<%= property.proptype %>" name="PropertyType" placeholder="PropertyType" required>
                     <input class="form-control" type="number" value="<%= property.bhk %>" name="BHK" placeholder="BHK" required>
                 </div>
                 <div class="dropdown">
